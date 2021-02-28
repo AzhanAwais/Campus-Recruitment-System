@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import logo from '../../assets/logo.png';
-import {View, Text, Image, StyleSheet, Button, TouchableOpacity,TextInput} from 'react-native';
+import {View, Text, Image, StyleSheet, Button, TouchableOpacity,TextInput, ScrollView} from 'react-native';
 import firebase from 'firebase';
 import { color } from 'react-native-reanimated';
 
@@ -78,31 +78,33 @@ const RegistrationOrLogin = ({navigation})=>{
     }
 
   return (
-      <View style={styles.container}>
-            <Image style={styles.logo} source={logo} />
+        <ScrollView>
+            <View style={styles.container}>
+                <Image style={styles.logo} source={logo} />
 
-            <TextInput value={name} onChangeText={(e)=>setName(e)} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Enter your username"></TextInput>
-            <TextInput value={role} onChangeText={(e)=>setRole(e.toLocaleLowerCase())} style={styles.inputs} placeholderTextColor="#FFFF"  placeholder="Enter your Role (student/company)"></TextInput>
-            <TextInput value={password} onChangeText={(e)=>setPassword(e)} secureTextEntry={true} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Enter your password"></TextInput>
+                <TextInput value={name} onChangeText={(e)=>setName(e)} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Enter your username"></TextInput>
+                <TextInput value={role} onChangeText={(e)=>setRole(e.toLocaleLowerCase())} style={styles.inputs} placeholderTextColor="#FFFF"  placeholder="Enter your Role (student/company)"></TextInput>
+                <TextInput value={password} onChangeText={(e)=>setPassword(e)} secureTextEntry={true} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Enter your password"></TextInput>
 
-            <TouchableOpacity activeOpacity={0.7} style={styles.btnLogin} onPress={()=>userLogin()}>
-                <Text style={styles.btnText}>Sign In</Text>
-            </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7} style={styles.btnLogin} onPress={()=>userLogin()}>
+                    <Text style={styles.btnText}>Sign In</Text>
+                </TouchableOpacity>
 
-            <Text style={styles.or}>OR</Text>
+                <Text style={styles.or}>OR</Text>
 
-            <TouchableOpacity activeOpacity={0.7} style={styles.btnRegister} onPress={() => navigation.navigate('SignUpAsStudent',{data})}>
-                <Text style={styles.text}>Sign Up as a Student</Text>
-            </TouchableOpacity> 
+                <TouchableOpacity activeOpacity={0.7} style={styles.btnRegister} onPress={() => navigation.navigate('SignUpAsStudent',{data})}>
+                    <Text style={styles.text}>Sign Up as a Student</Text>
+                </TouchableOpacity> 
 
-            <TouchableOpacity activeOpacity={0.7} style={styles.btnRegister} onPress={() => navigation.navigate('SignUpAsCompany',{data})}>
-                <Text style={styles.text}>Sign Up as a Company</Text>
-            </TouchableOpacity>  
+                <TouchableOpacity activeOpacity={0.7} style={styles.btnRegister} onPress={() => navigation.navigate('SignUpAsCompany',{data})}>
+                    <Text style={styles.text}>Sign Up as a Company</Text>
+                </TouchableOpacity>  
 
-            <TouchableOpacity activeOpacity={0.7} style={styles.btnRegister} onPress={() => navigation.navigate('SignUpAsAdin',{data})}>
-                <Text style={styles.text}>Sign Up as a Admin</Text>
-            </TouchableOpacity>  
-      </View>
+                <TouchableOpacity activeOpacity={0.7} style={styles.btnRegister} onPress={() => navigation.navigate('SignInAsAdmin')}>
+                    <Text style={styles.text}>Sign In as a Admin</Text>
+                </TouchableOpacity>  
+            </View>
+        </ScrollView>
   );
 }
 

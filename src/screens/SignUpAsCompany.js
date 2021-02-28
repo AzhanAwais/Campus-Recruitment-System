@@ -50,12 +50,12 @@ const SignUpAsCompany = ({ navigation, route })=>{
         <ScrollView style={styles.scrollView}>
             <View  style={styles.container}>
             <Text style={styles.text}>COMPANY SIGN UP</Text>
-            <TextInput value={name} onChangeText={(e)=>setName(e)} style={styles.inputs} placeholder="Enter company name"></TextInput>
-            <TextInput value={email} onChangeText={(e)=>setEmail(e.toLocaleLowerCase())} style={styles.inputs} placeholder="Enter company email"></TextInput>
-            <TextInput value={phone} onChangeText={(e)=>setPhone(e)} style={styles.inputs} placeholder="Enter company phone"></TextInput>
-            <TextInput value={location} onChangeText={(e)=>setLocation(e)} style={styles.inputs} placeholder="Enter company location"></TextInput>
-            <TextInput value={hiring} onChangeText={(e)=>setHiring(e)} style={styles.inputs} placeholder="Hiring"></TextInput>
-            <TextInput value={password} onChangeText={(e)=>setPassword(e)} style={styles.inputs} secureTextEntry={true} placeholder="Enter your password"></TextInput>
+            <TextInput value={name} onChangeText={(e)=>setName(e)} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Enter company name"></TextInput>
+            <TextInput value={email} onChangeText={(e)=>setEmail(e.toLocaleLowerCase())} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Enter company email"></TextInput>
+            <TextInput value={phone} onChangeText={(e)=>setPhone(e)} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Enter company phone"></TextInput>
+            <TextInput value={location} onChangeText={(e)=>setLocation(e)} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Enter company location"></TextInput>
+            <TextInput value={hiring} onChangeText={(e)=>setHiring(e)} style={styles.inputs} placeholderTextColor="#FFFF" placeholder="Hiring"></TextInput>
+            <TextInput value={password} onChangeText={(e)=>setPassword(e)} style={styles.inputs} secureTextEntry={true} placeholderTextColor="#FFFF" placeholder="Enter your password"></TextInput>
             <TouchableOpacity activeOpacity={0.7} style={styles.btnLogin} onPress={()=>insertUser()}>
                 <Text style={styles.btnText}>Sign Up</Text>
             </TouchableOpacity>
@@ -73,8 +73,11 @@ const styles = StyleSheet.create({
     },
     inputs:{
         width:'90%',
-        borderColor:"gray",
         borderWidth:1,
+        borderTopWidth:0,
+        borderRightWidth:0,
+        borderLeftWidth:0,
+        borderBottomColor:"white",
         padding:8,
         marginBottom:10,
         color:'white'

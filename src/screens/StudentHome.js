@@ -26,6 +26,7 @@ const StudentHome = ({ navigation, route })=>{
         if(data[i].name==name && data[i].role==role){
             currUser={
                 name: data[i].name,
+                key: data[i].key,
                 role:data[i].role,
                 email:data[i].email,
                 phone:data[i].phone,
@@ -36,34 +37,26 @@ const StudentHome = ({ navigation, route })=>{
         }
     }
 
-    const saveData = (currUser,companyName,appliedField)=>{
-        const {name,role,email,phone,field,college,cgpa} = currUser;
-        const key = firebase.database().ref('applieduser').push().key;
-        console.log(companyName,appliedField)
-        firebase.database().ref('applieduser/'+ key).set({
-            key,
+    const saveData = (currUser,name,email,phone,location,hiring,password,key,role)=>{
+        firebase.database().ref('users/'+ key).set({
+            userKey:currUser.key,
             name,
-            role,
             email,
             phone,
-            field,
-            college,
-            cgpa,
-            companyName,
-            appliedField
+            location,
+            hiring,
+            password,
+            key:key,
+            role
         })
         navigation.navigate('StudentHome')
     }
 
     fillArrayDataWithCompany();
-    console.log('=======APPLIED========')
-    console.log(applyData)
-    console.log('=======CURRENT========')
-    console.log(currUser)
 
     const isUserAlreadyApplied = (currUser)=>{
-        for(let i=0;i<applyData.length;i++){
-            if(currUser.name==applyData[i].name && currUser.field==applyData[i].appliedField){
+        for(let i=0;i<arr.length;i++){
+            if(arr[i].userKey==currUser.key){
                 return true
             }
             else{
@@ -74,36 +67,36 @@ const StudentHome = ({ navigation, route })=>{
 
     return (
         arr.map((v,i)=>{
-            const ans = isUserAlreadyApplied(currUser);
-                if(ans==false || applyData.length==0){
-                    return(
-                        <View key={i} style={styles.card}>
-                            <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
-                            <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
-                            <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
-                            <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.location}</Text>
-                            <Text style={styles.textName}><Text style={styles.text}>Hiring: </Text>{v.hiring}</Text>
-                            <TouchableOpacity activeOpacity={0.7} style={styles.btnIcon} onPress={() => saveData(currUser,v.name,v.hiring)}>
-                                <Text style={styles.btnText}>Apply</Text>
-                            </TouchableOpacity>                       
-                        </View>
-                    )  
-                }
-               
-                else{
-                    return(
-                        <View key={i} style={styles.card}>
-                            <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
-                            <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
-                            <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
-                            <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.location}</Text>
-                            <Text style={styles.textName}><Text style={styles.text}>Hiring: </Text>{v.hiring}</Text>
-                            <TouchableOpacity disabled activeOpacity={0.7} style={styles.btnIcon} onPress={() => saveData(currUser,v.name)}>
-                                <Text style={styles.btnTextCenter}>You have already applied</Text>
-                            </TouchableOpacity>                       
-                        </View>
-                    )  
-                } 
+            console.log('****')
+            console.log(v.userKey)
+            if(v.userKey==currUser.key){
+                return(
+                    <View key={i} style={styles.card}>
+                    <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.location}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Hiring: </Text>{v.hiring}</Text>
+                    <TouchableOpacity disabled activeOpacity={0.7} style={styles.btnIcon} onPress={() => saveData(currUser,v.name,v.email,v.phone,v.location,v.hiring,v.password,v.key,v.role)}>
+                        <Text style={styles.btnTextCenter}>You have already applied</Text>
+                    </TouchableOpacity>                       
+                    </View>
+                )
+            }
+            else{
+                return(
+                    <View key={i} style={styles.card}>
+                        <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
+                        <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
+                        <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
+                        <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.location}</Text>
+                        <Text style={styles.textName}><Text style={styles.text}>Hiring: </Text>{v.hiring}</Text>
+                        <TouchableOpacity activeOpacity={0.7} style={styles.btnIcon} onPress={() => saveData(currUser,v.name,v.email,v.phone,v.location,v.hiring,v.password,v.key,v.role)}>
+                            <Text style={styles.btnText}>Apply</Text>
+                        </TouchableOpacity>                       
+                    </View>
+                ) 
+            }
         })
     );
 }
