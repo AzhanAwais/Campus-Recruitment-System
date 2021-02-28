@@ -8,13 +8,13 @@ const CompanyHome = ({ navigation, route })=>{
     const Cname = route.params.name;
     const role = route.params.role;
     const key = route.params.key;
-    const applyData = route.params.applyData;
     const arr=[];
-    var currCompany;
+    var User;
+
 
     const fillArrayDataWithCompany = ()=>{
         for(let i=0;i<data.length;i++){
-            if(data[i].role=='company'){
+            if(data[i].role=='company' && data[i].userKey){
                 arr.push(data[i])
             }
             else{
@@ -23,60 +23,55 @@ const CompanyHome = ({ navigation, route })=>{
         }
     }
 
-    const declineProfile = (Username,applyField,key)=>{
-        for(let i=0;i<applyData.length;i++){
-            if(applyData[i].name==Username && applyData[i].appliedField==applyField && applyData[i].companyName==Cname){
-                let delData = firebase.database().ref('applieduser/'+ key);
-                delData.remove();
-                setRefresh('');
+    const declineProfile = (userkey,key,email,phone,hiring,name,location,password,ph,role)=>{
+        for(let i=0;i<data.length;i++){
+            if(data[i].role=='company'){
+                if(data[i].userKey){
+                    if(data[i].userKey==userkey){
+                        firebase.database().ref('users/'+ key).set({
+                            key,
+                            email,
+                            phone,
+                            hiring,
+                            name,
+                            location,
+                            password,
+                            phone:ph,
+                            role
+                        })
+                    }
+                }
             }
         }
     }
-
-    const approveProfile = (Username,applyField,key)=>{
-        for(let i=0;i<applyData.length;i++){
-            if(applyData[i].name==Username && applyData[i].appliedField==applyField && applyData[i].companyName==Cname){
-                let delData = firebase.database().ref('applieduser/'+ key);
-                delData.remove();
-                setRefresh('');
-            }
-        }
-    }
-    
-    // const findCurrCompany = (Cname)=>{
-    //     for(let i=0;i<data.length;i++){
-    //         if(data[i].name==Cname && data[i].role==role){
-    //             currCompany={
-    //                 name:data[i].name,
-    //                 email:data[i].email,
-    //                 phone:data[i].phone,
-    //                 // hiring:data[i].hiring,
-    //                 // key:data[i].key,
-    //                 location:data[i].location,
-    //                 role:'company'
-    //             }
-    //         }
-    //     }
-    // }
 
     fillArrayDataWithCompany();
     
     return (
-        applyData.map((v,i)=>{
+        arr.map((v,i)=>{
+            for(let i=0;i<data.length;i++){
+                if(data[i].role=='student' && data[i].key==v.userKey){
+                    User={
+                        field:data[i].field,
+                        college:data[i].college,
+                        cgpa:data[i].cgpa,
+                        name:data[i].name
+                    }
+                }
+            }
+
             return(
                 <View key={i} style={styles.card}>
-                    <Text style={styles.textName}><Text style={styles.text}>Name: </Text>{v.name}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>Field: </Text>{v.field}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>College: </Text>{v.college}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>CGPA: </Text>{v.cgpa}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>Applied For: </Text>{v.appliedField}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Company Email: </Text>{v.email}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Company Phone: </Text>{v.phone}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Applier Name: </Text>{User.name}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Applier Field: </Text>{User.field}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Applier College: </Text>{User.college}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Applier CGPA: </Text>{User.cgpa}</Text>
+                    <Text style={styles.textName}><Text style={styles.text}>Applied For: </Text>{v.hiring}</Text>
                     <View style={{display:'flex', flexDirection:'row'}}>
-                    <TouchableOpacity activeOpacity={0.7} style={styles.btnApproved} onPress={() => approveProfile(v.name,v.appliedField,v.key)}>
-                        <Text style={styles.btnText}>Approved</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.7} style={styles.btnDecline} onPress={() => declineProfile(v.name,v.appliedField,v.key)}>
+                    <TouchableOpacity activeOpacity={0.7} style={styles.btnDecline} onPress={() => declineProfile(v.userKey,v.key,v.email,v.phone,v.hiring,v.name,v.location,v.password,v.phone,v.role)}>
                         <Text style={styles.btnText}>Decline</Text>
                     </TouchableOpacity> 
                     </View>                      

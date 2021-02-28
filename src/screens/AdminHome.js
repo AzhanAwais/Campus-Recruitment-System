@@ -4,12 +4,9 @@ import firebase from 'firebase';
 
 const AdminHome = ({ navigation, route })=>{
     const data = route.params.data;
-    const deleteData = (key,name)=>{
+    const deleteData = (key)=>{
         let delData = firebase.database().ref('users/'+ key);
         delData.remove();
-
-        let delApplyData = firebase.database().ref('applieduser/'+ name);
-        delApplyData.remove();
     }
 
     return (
@@ -25,7 +22,7 @@ const AdminHome = ({ navigation, route })=>{
                                 <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.cgpa}</Text>
                                 <Text style={styles.textName}><Text style={styles.text}>College: </Text>{v.college}</Text>
                                 <Text style={styles.textName}><Text style={styles.text}>Field: </Text>{v.field}</Text>
-                                <TouchableOpacity activeOpacity={0.7} style={styles.btnDecline} onPress={() => deleteData(v.key,v.name)}>
+                                <TouchableOpacity activeOpacity={0.7} style={styles.btnDecline} onPress={() => deleteData(v.key)}>
                                     <Text style={styles.btnText}>Delete</Text>
                                 </TouchableOpacity>                       
                             </View>

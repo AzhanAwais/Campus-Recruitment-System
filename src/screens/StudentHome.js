@@ -66,38 +66,41 @@ const StudentHome = ({ navigation, route })=>{
     }
 
     return (
-        arr.map((v,i)=>{
-            console.log('****')
-            console.log(v.userKey)
-            if(v.userKey==currUser.key){
-                return(
-                    <View key={i} style={styles.card}>
-                    <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.location}</Text>
-                    <Text style={styles.textName}><Text style={styles.text}>Hiring: </Text>{v.hiring}</Text>
-                    <TouchableOpacity disabled activeOpacity={0.7} style={styles.btnIcon} onPress={() => saveData(currUser,v.name,v.email,v.phone,v.location,v.hiring,v.password,v.key,v.role)}>
-                        <Text style={styles.btnTextCenter}>You have already applied</Text>
-                    </TouchableOpacity>                       
-                    </View>
-                )
+        <ScrollView>
+            {
+                arr.map((v,i)=>{
+                    if(v.userKey==currUser.key){
+                        return(
+                            <View key={i} style={styles.card}>
+                            <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
+                            <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
+                            <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
+                            <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.location}</Text>
+                            <Text style={styles.textName}><Text style={styles.text}>Hiring: </Text>{v.hiring}</Text>
+                            <TouchableOpacity disabled activeOpacity={0.7} style={styles.btnIcon} onPress={() => saveData(currUser,v.name,v.email,v.phone,v.location,v.hiring,v.password,v.key,v.role)}>
+                                <Text style={styles.btnTextCenter}>You have already applied</Text>
+                            </TouchableOpacity>                       
+                            </View>
+                        )
+                    }
+                    else{
+                        return(
+                            <View key={i} style={styles.card}>
+                                <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
+                                <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
+                                <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
+                                <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.location}</Text>
+                                <Text style={styles.textName}><Text style={styles.text}>Hiring: </Text>{v.hiring}</Text>
+                                <TouchableOpacity activeOpacity={0.7} style={styles.btnIcon} onPress={() => saveData(currUser,v.name,v.email,v.phone,v.location,v.hiring,v.password,v.key,v.role)}>
+                                    <Text style={styles.btnText}>Apply</Text>
+                                </TouchableOpacity>                       
+                            </View>
+                        ) 
+                    }
+                })
             }
-            else{
-                return(
-                    <View key={i} style={styles.card}>
-                        <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
-                        <Text style={styles.textName}><Text style={styles.text}>Email: </Text>{v.email}</Text>
-                        <Text style={styles.textName}><Text style={styles.text}>Phone: </Text>{v.phone}</Text>
-                        <Text style={styles.textName}><Text style={styles.text}>Location: </Text>{v.location}</Text>
-                        <Text style={styles.textName}><Text style={styles.text}>Hiring: </Text>{v.hiring}</Text>
-                        <TouchableOpacity activeOpacity={0.7} style={styles.btnIcon} onPress={() => saveData(currUser,v.name,v.email,v.phone,v.location,v.hiring,v.password,v.key,v.role)}>
-                            <Text style={styles.btnText}>Apply</Text>
-                        </TouchableOpacity>                       
-                    </View>
-                ) 
-            }
-        })
+        </ScrollView>
+        
     );
 }
 

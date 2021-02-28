@@ -20,17 +20,6 @@ const RegistrationOrLogin = ({navigation})=>{
         })  
     },[])
 
-    const [applyData, setApplyData] = useState();
-    useEffect(() => {
-        let newArr = []
-        firebase.database().ref('applieduser').on("value",snapshot=>{
-            snapshot.forEach((snap)=>{
-                newArr.push(snap.val());
-            })
-            setApplyData(newArr);
-        })  
-    },[])
-
 
     function isUserExist(name,password,role){
         let obj = {};
@@ -66,13 +55,13 @@ const RegistrationOrLogin = ({navigation})=>{
             let name = obj.name;
             let role = obj.role;
             let key = obj.key;
-            navigation.navigate('StudentHome',{name,role,key,data,applyData})
+            navigation.navigate('StudentHome',{name,role,key,data})
            }
            else{
             let name = obj.name;
             let role = obj.role;
             let key = obj.key;
-            navigation.navigate('CompanyHome',{name,role,key,data,applyData})
+            navigation.navigate('CompanyHome',{name,role,key,data})
            }
        }
     }
