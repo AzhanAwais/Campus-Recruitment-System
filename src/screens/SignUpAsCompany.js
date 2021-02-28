@@ -12,7 +12,7 @@ const SignUpAsCompany = ({ navigation, route })=>{
     const {data} =  route.params;
 
     const isUserRegistered = (name)=>{
-        bool = false;
+        var bool = false;
         for(let i=0;i<data.length;i++){
             if(data[i].name==name && data[i].role=='company'){
                 bool = true;
@@ -31,7 +31,9 @@ const SignUpAsCompany = ({ navigation, route })=>{
             console.log("User already registered")
         }
         else{
-            firebase.database().ref('users').push({
+            const key = firebase.database().ref('users').push().key;
+            firebase.database().ref('users/'+ key).set({
+                key:key,
                 name,
                 email,
                 phone,

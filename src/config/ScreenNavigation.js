@@ -5,6 +5,7 @@ import RegistrationOrLogin from '../screens/RegistrationOrLogin';
 import SignUpAsStudent from '../screens/SignUpAsStudent';
 import SignUpAsCompany from '../screens/SignUpAsCompany';
 import StudentHome from '../screens/StudentHome';
+import CompanyHome from '../screens/CompanyHome';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const ScreenNavigation = ()=>{
                 <Stack.Screen name="SignUpAsStudent" component={SignUpAsStudent} />
                 <Stack.Screen name="SignUpAsCompany" component={SignUpAsCompany} />
                 <Stack.Screen name="StudentHome" component={StudentHome} />
+                <Stack.Screen name="CompanyHome" component={CompanyHome} />
             </Stack.Navigator>
         </NavigationContainer>
     );

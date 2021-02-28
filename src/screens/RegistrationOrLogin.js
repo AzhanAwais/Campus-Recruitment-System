@@ -31,14 +31,16 @@ const RegistrationOrLogin = ({navigation})=>{
         })  
     },[])
 
+
     function isUserExist(name,password,role){
         let obj = {};
         for(let i=0;i<data.length;i++){
             if(data[i].name==name && data[i].password==password && data[i].role==role){
-                var {group, name} = data[i];
+                var {role, name, key} = data[i];
                 obj = {
                     name,
                     role,
+                    key,
                     bool : true 
                 }
                 return obj;
@@ -46,6 +48,7 @@ const RegistrationOrLogin = ({navigation})=>{
                 obj = {
                     name,
                     role,
+                    key,
                     bool : false 
                 }
             }
@@ -62,10 +65,14 @@ const RegistrationOrLogin = ({navigation})=>{
            if(role == 'student'){
             let name = obj.name;
             let role = obj.role;
-            navigation.navigate('StudentHome',{name,role,data,applyData})
+            let key = obj.key;
+            navigation.navigate('StudentHome',{name,role,key,data,applyData})
            }
            else{
-               console.log("copany")
+            let name = obj.name;
+            let role = obj.role;
+            let key = obj.key;
+            navigation.navigate('CompanyHome',{name,role,key,data,applyData})
            }
        }
     }

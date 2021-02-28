@@ -37,8 +37,10 @@ const StudentHome = ({ navigation, route })=>{
     }
 
     const saveData = (currUser,companyName,appliedField)=>{
-        const {name,role,email,phone,field,college,cgpa} = currUser
-        firebase.database().ref('applieduser').push({
+        const {name,role,email,phone,field,college,cgpa} = currUser;
+        const key = firebase.database().ref('userapplied').push().key;
+        firebase.database().ref('applieduser/'+ key).set({
+            key:key,
             name,
             role,
             email,
@@ -67,7 +69,6 @@ const StudentHome = ({ navigation, route })=>{
     return (
         arr.map((v,i)=>{
             const ans = isUserAlreadyApplied(name,v.name)
-            console.log(ans)
                 if(ans==false){
                     return(
                         <View key={i} style={styles.card}>
