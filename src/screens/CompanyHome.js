@@ -10,7 +10,7 @@ const CompanyHome = ({ navigation, route })=>{
     const key = route.params.key;
     const applyData = route.params.applyData;
     const arr=[];
-    var currUser;
+    var currCompany;
 
     const fillArrayDataWithCompany = ()=>{
         for(let i=0;i<data.length;i++){
@@ -33,8 +33,33 @@ const CompanyHome = ({ navigation, route })=>{
         }
     }
 
+    const approveProfile = (Username,applyField,key)=>{
+        for(let i=0;i<applyData.length;i++){
+            if(applyData[i].name==Username && applyData[i].appliedField==applyField && applyData[i].companyName==Cname){
+                let delData = firebase.database().ref('applieduser/'+ key);
+                delData.remove();
+                setRefresh('');
+            }
+        }
+    }
+    
+    // const findCurrCompany = (Cname)=>{
+    //     for(let i=0;i<data.length;i++){
+    //         if(data[i].name==Cname && data[i].role==role){
+    //             currCompany={
+    //                 name:data[i].name,
+    //                 email:data[i].email,
+    //                 phone:data[i].phone,
+    //                 // hiring:data[i].hiring,
+    //                 // key:data[i].key,
+    //                 location:data[i].location,
+    //                 role:'company'
+    //             }
+    //         }
+    //     }
+    // }
+
     fillArrayDataWithCompany();
-    console.log(applyData)
     
     return (
         applyData.map((v,i)=>{
@@ -48,7 +73,7 @@ const CompanyHome = ({ navigation, route })=>{
                     <Text style={styles.textName}><Text style={styles.text}>CGPA: </Text>{v.cgpa}</Text>
                     <Text style={styles.textName}><Text style={styles.text}>Applied For: </Text>{v.appliedField}</Text>
                     <View style={{display:'flex', flexDirection:'row'}}>
-                    <TouchableOpacity activeOpacity={0.7} style={styles.btnApproved} onPress={() => approveProfile(v.name,v.appliedField)}>
+                    <TouchableOpacity activeOpacity={0.7} style={styles.btnApproved} onPress={() => approveProfile(v.name,v.appliedField,v.key)}>
                         <Text style={styles.btnText}>Approved</Text>
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.7} style={styles.btnDecline} onPress={() => declineProfile(v.name,v.appliedField,v.key)}>

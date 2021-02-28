@@ -38,9 +38,10 @@ const StudentHome = ({ navigation, route })=>{
 
     const saveData = (currUser,companyName,appliedField)=>{
         const {name,role,email,phone,field,college,cgpa} = currUser;
-        const key = firebase.database().ref('userapplied').push().key;
+        const key = firebase.database().ref('applieduser').push().key;
+        console.log(companyName,appliedField)
         firebase.database().ref('applieduser/'+ key).set({
-            key:key,
+            key,
             name,
             role,
             email,
@@ -55,12 +56,17 @@ const StudentHome = ({ navigation, route })=>{
     }
 
     fillArrayDataWithCompany();
+    console.log('=======APPLIED========')
+    console.log(applyData)
+    console.log('=======CURRENT========')
+    console.log(currUser)
 
-    const isUserAlreadyApplied = (name,company,hiring)=>{
+    const isUserAlreadyApplied = (currUser)=>{
         for(let i=0;i<applyData.length;i++){
-            if(applyData[i].companyName==company && applyData[i].name==name && applyData[i].appliedField==hiring){
+            if(currUser.name==applyData[i].name && currUser.field==applyData[i].appliedField){
                 return true
-            }else{
+            }
+            else{
                 return false
             }
         }
@@ -68,8 +74,8 @@ const StudentHome = ({ navigation, route })=>{
 
     return (
         arr.map((v,i)=>{
-            const ans = isUserAlreadyApplied(name,v.name)
-                if(ans==false){
+            const ans = isUserAlreadyApplied(currUser);
+                if(ans==false || applyData.length==0){
                     return(
                         <View key={i} style={styles.card}>
                             <Text style={styles.textName}><Text style={styles.text}>Company: </Text>{v.name}</Text>
